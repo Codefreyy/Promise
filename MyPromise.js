@@ -44,6 +44,10 @@ class MyPromise {
         this.onRejectedCallbacks = []
 
         const resolve = (value) => {
+            if (value instanceof MyPromise) {
+                value.then(resolve, reject)
+                return
+            }
             if (this.status === PENDING) {
                 this.status = FULFILLED
                 this.value = value
@@ -123,6 +127,48 @@ class MyPromise {
     }
     catch(errorCallback) {
         return this.then(null, errorCallback) 
+    }
+
+    static resolve (value) {
+        return new MyPromise((resolve, reject)=> {
+            resolve(value)
+        })
+    }
+
+    static reject (error) {
+        return new MyPromise((resolve, reject)=> {
+            reject(error)
+        })
+    }
+
+    static all (promiseArr) {
+        let resArr = [],
+            idx = 0
+
+        return new MyPromise((resolve, reject)=> {
+            promiseArr.map((promise, index)=> {
+                if(isPromise(promise)) {
+                    promise.then((res)=> {
+                        formatResArr(res, index, resolve)
+                    }, reject)
+                } else {
+                    formatResArr(promise, index, resolve)
+                }
+            })
+        })
+        function formatResArr (value, index, resolve) {
+            resArr[index] = value
+            if(++idx === promiseArr.length) {
+                resolve(resArr)
+            }
+        }
+        function isPromise(x) {
+            if((typeof x === 'object' && x!== null)|| typeof x === 'function') {
+                let then = x.then
+                return typeof then === 'function'
+            }
+            return false
+        }
     }
 }
 

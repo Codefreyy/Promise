@@ -1,17 +1,11 @@
 const MyPromise = require('./MyPromise')
 
-let promise1 = new MyPromise((resolve, reject)=> {
-    setTimeout(()=> {
-        resolve('success')
-    }, 0)
+MyPromise.resolve(
+   new MyPromise((resolve, reject) => {
+        setTimeout(()=> {
+            resolve('yujie')
+        })
+    })
+).then(res => {
+    console.log(11111, res);
 })
-
-promise1.then().then((value)=>{
-    resolve(value)
-}, ()=>{
-}).then(value=> {
-    console.log(111, value);
-}, reason => {
-    console.log('error', reason);
-})
-
