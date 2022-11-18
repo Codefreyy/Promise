@@ -129,6 +129,16 @@ class MyPromise {
         return this.then(null, errorCallback) 
     }
 
+    finally(finallyCallback) {
+        return this.then((value)=> {
+            return MyPromise.resolve(finallyCallback()).then(()=> value)
+        }, (reason)=> {
+            return MyPromise.resolve(finallyCallback()).then(()=> {
+                throw reason
+            })
+        })
+    }
+
     static resolve (value) {
         return new MyPromise((resolve, reject)=> {
             resolve(value)
@@ -170,7 +180,7 @@ class MyPromise {
         if (!isIterable(promiseArr)) {
             throw new TypeError(promiseArr + ' is not iterable')
         }
-        return new Promise((resolve, reject)=> {
+        return new MyPromise((resolve, reject)=> {
             if(promiseArr.length === 0) {
                 resolve([])
             }
@@ -209,6 +219,18 @@ class MyPromise {
                 resolve(resArr)
             }
         }
+    }
+    // 哪个先有结果处理哪个
+    static race(promiseArr) {
+        return new MyPromise((resolve, reject)=> {
+            promiseArr.map((promise)=> {
+                if(isPromise(promise)) {
+                    promise.then(resolve, reject)
+                } else {
+                    resolve(promise)
+                }
+            })
+        })
     }
 }
 function isPromise(x) {

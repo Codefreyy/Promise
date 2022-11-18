@@ -39,3 +39,14 @@ let x = onRejected(this.reason)
 在这方法里面调用then，第一个参数（onFulfilled)是null（因为失败才需要catch）,
 第二个参数（onRejected）就是传入的这个回调函数（errorCallback)。
 
+
+## finally的实现要点
+1. 无论外面的Promise是成功还是失败 都要走finally，并且回调不带参数。
+2. 正常走finally之后then 或者catch
+3. 如果finally 内部有promise 并且有延时处理，整个finally会等待
+4. 如果两个都成功取外面
+5. 如果外面是成功，里面是失败，取里面（finally)的结果（失败）
+6. 如果外面是失败 里面是成功，取外面的结果（失败）
+7. 如果外面是失败 里面是失败，取里面的结果（失败）
+8. 如果外面是成功 里面是成功，取外面（成功）
+** 看起来好像是成功优先取外面，失败取里面 **
