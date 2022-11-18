@@ -12,7 +12,7 @@ let p2 = new MyPromise((resolve, reject) => {
     })
 })
 
-MyPromise.allSettled([p1, p2]).then(res=> {
+MyPromise.allSettled(null).then(res=> {
     console.log(res);
 }).catch(err=> {
     console.log(err);

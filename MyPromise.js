@@ -168,7 +168,7 @@ class MyPromise {
         let resArr = [],
             idx = 0;
         if (!isIterable(promiseArr)) {
-            throw new TypeError(PromiseArr + 'is not iterable')
+            throw new TypeError(promiseArr + ' is not iterable')
         }
         return new Promise((resolve, reject)=> {
             if(promiseArr.length === 0) {
