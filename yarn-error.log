@@ -1,0 +1,53 @@
+Arguments: 
+  /Users/godfrey.peng/.nvm/versions/node/v14.20.0/bin/node /usr/local/bin/yarn add romises-aplus-tes
+
+PATH: 
+  /Users/godfrey.peng/.nvm/versions/node/v14.20.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/godfrey.peng/opt/anaconda3/bin:/Users/godfrey.peng/opt/anaconda3/condabin:/opt/homebrew/bin:/opt/homebrew/sbin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  14.20.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://artifactory.nioint.com/artifactory/api/npm/dd-npm-all-virtual/romises-aplus-tes: not_found
+      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66145:18)
+      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140890:22)
+      at Request.emit (events.js:400:28)
+      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141862:10)
+      at Request.emit (events.js:400:28)
+      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141784:12)
+      at Object.onceWrapper (events.js:519:28)
+      at IncomingMessage.emit (events.js:412:35)
+      at endReadableNT (internal/streams/readable.js:1333:12)
+      at processTicksAndRejections (internal/process/task_queues.js:82:21)
+
+npm manifest: 
+  {
+    "name": "Promise",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "dev": "nodemon ./index.js -i ./data/"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "nodemon": "^2.0.20"
+    },
+    "devDependencies": {
+      "promises-aplus-tests": "^2.1.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

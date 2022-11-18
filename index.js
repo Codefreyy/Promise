@@ -1,27 +1,17 @@
 const MyPromise = require('./MyPromise')
-let promise1 = new MyPromise((resolve, reject)=>{
-    resolve('first resolve')
-})
 
-let promise2 = promise1.then(()=> {
-   // return new Error('Error')
-//    return Promise.resolve('Promise Resolve')
-  return new MyPromise((resolve, reject) => {
+let promise1 = new MyPromise((resolve, reject)=> {
     setTimeout(()=> {
-    resolve(new MyPromise((resolve, reject)=> {
-        resolve('kkkkk')
-    }))
-    },0)
-  })
-}, (reason)=> {
-    return reason
+        resolve('success')
+    }, 0)
 })
 
-promise2.then().then().then().then(value => {
-    throw new Error('error!!!')
-}, (reason) => {
-    console.log(reason);
+promise1.then().then((value)=>{
+    resolve(value)
+}, ()=>{
+}).then(value=> {
+    console.log(111, value);
+}, reason => {
+    console.log('error', reason);
 })
-.catch(e => {
-    console.log('e', e);
-})
+
