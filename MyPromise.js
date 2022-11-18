@@ -162,16 +162,66 @@ class MyPromise {
                 resolve(resArr)
             }
         }
-        function isPromise(x) {
-            if((typeof x === 'object' && x!== null)|| typeof x === 'function') {
-                let then = x.then
-                return typeof then === 'function'
+    }
+
+    static allSettled(promiseArr) {
+        let resArr = [],
+            idx = 0;
+        if (!isIterable(promiseArr)) {
+            throw new TypeError(PromiseArr + 'is not iterable')
+        }
+        return new Promise((resolve, reject)=> {
+            if(promiseArr.length === 0) {
+                resolve([])
             }
-            return false
+
+            promiseArr.map((promise, index)=> {
+                if(isPromise(promise)) {
+                    promise.then((value)=> {
+                        formatResArr('fulfilled', value, index, resolve)
+                    }, (reason)=> {
+                        formatResArr('rejected', reason, index, resolve)
+                    })
+                } else {
+                    formatResArr('fulfilled', promise, index, value)
+                }
+            })
+        })
+
+        function formatResArr(status, value, index, resolve) {
+            switch(status) {
+                case 'fulfilled':
+                    resArr[index] = {
+                        status,
+                        value
+                    }
+                    break
+                case 'rejected': 
+                    resArr[index] = {
+                        status,
+                        reason: value
+                    }
+                    break
+                default:
+                    break;
+            }
+            if(++ idx === promiseArr.length) {
+                resolve(resArr)
+            }
         }
     }
 }
+function isPromise(x) {
+    if((typeof x === 'object' && x!== null)|| typeof x === 'function') {
+        let then = x.then
+        return typeof then === 'function'
+    }
+    return false
+}
 
+function isIterable(value) {
+    return value!== null && value!==undefined && typeof value[Symbol.iterator] === 'function'
+}
 // 检测这个promise是否符合Promise/A+规范
 MyPromise.defer = MyPromise.deferred = function() {
     let deferred = {}

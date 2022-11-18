@@ -1,11 +1,19 @@
 const MyPromise = require('./MyPromise')
 
-MyPromise.resolve(
-   new MyPromise((resolve, reject) => {
-        setTimeout(()=> {
-            resolve('yujie')
-        })
+let p1 = new MyPromise((resolve, reject)=> {
+    setTimeout(()=> {
+        resolve('success')
     })
-).then(res => {
-    console.log(11111, res);
+})
+
+let p2 = new MyPromise((resolve, reject) => {
+    setTimeout(()=> {
+        reject('error')
+    })
+})
+
+MyPromise.allSettled([p1, p2]).then(res=> {
+    console.log(res);
+}).catch(err=> {
+    console.log(err);
 })
