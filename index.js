@@ -1,19 +1,18 @@
-const MyPromise = require('./MyPromise')
+// const fs = require('fs')
+// fs.readFile('./data/data.json', 'utf-8', function(err, data) {
+//     if(err) {
+//         console.log(err);
+//         return
+//     }
+//     console.log(data);
+// })
 
-let p1 = new MyPromise((resolve, reject)=> {
-    setTimeout(()=> {
-        resolve('success')
-    })
-})
+const fs = require('fs')
+const util = require('./util')
+const fsFunctions = util.promisifyAll(fs)
 
-let p2 = new MyPromise((resolve, reject) => {
-    setTimeout(()=> {
-        reject('error')
-    })
-})
-
-MyPromise.allSettled(null).then(res=> {
-    console.log(res);
-}).catch(err=> {
-    console.log(err);
+fsFunctions.readFileAsync('./data/data.json', 'utf-8').then((res)=> {
+    console.log('res', res);
+}, (reason)=> {
+    console.log('reason', reason);
 })
